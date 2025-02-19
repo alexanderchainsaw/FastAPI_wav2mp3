@@ -1,6 +1,7 @@
-from wav2mp3.database.core import Base
 from pydantic import BaseModel
 from sqlalchemy.orm import Mapped, mapped_column
+
+from ..database.core import Base
 
 
 class UserCreate(BaseModel):

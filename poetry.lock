@@ -478,6 +478,21 @@ files = [
 ]
 
 [[package]]
+name = "isort"
+version = "6.0.0"
+description = "A Python utility / library to sort Python imports."
+optional = false
+python-versions = ">=3.9.0"
+files = [
+    {file = "isort-6.0.0-py3-none-any.whl", hash = "sha256:567954102bb47bb12e0fae62606570faacddd441e45683968c8d1734fb1af892"},
+    {file = "isort-6.0.0.tar.gz", hash = "sha256:75d9d8a1438a9432a7d7b54f2d3b45cad9a4a0fdba43617d9873379704a8bdf1"},
+]
+
+[package.extras]
+colors = ["colorama"]
+plugins = ["setuptools"]
+
+[[package]]
 name = "jinja2"
 version = "3.1.5"
 description = "A very fast and expressive template engine."
@@ -1408,4 +1423,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "78a71b8302e512f2ae04c703824f07336c9f492b5a1b13c7cc39b50bbb9e1b49"
+content-hash = "b48eb7a28b27724b24192feaff81dde5911800d61bfa600321afe08b181db974"

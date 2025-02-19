@@ -1,8 +1,10 @@
 import os
-from pydub import AudioSegment
-from .models import RecordCreate
+
 from fastapi.exceptions import HTTPException
-from wav2mp3 import config
+from pydub import AudioSegment
+
+from .. import config
+from .models import RecordCreate
 
 
 def construct_download_link(record_id: str, user_id: str) -> str:
@@ -12,9 +14,9 @@ def construct_download_link(record_id: str, user_id: str) -> str:
 def _wav_to_mp3(record_create: RecordCreate, path_to_file: str):
     # Создаём папку для пользователя если её нет
     if not os.path.exists(f"media/{record_create.user_id}"):
-        os.makedirs(f'media/{record_create.user_id}')
+        os.makedirs(f"media/{record_create.user_id}")
 
-    with open(f"{path_to_file}.wav", 'wb') as file:
+    with open(f"{path_to_file}.wav", "wb") as file:
         file.write(record_create.wav_file.file.read())
     print(path_to_file)
     mp3_file = AudioSegment.from_wav(f"{path_to_file}.wav")
@@ -23,7 +25,7 @@ def _wav_to_mp3(record_create: RecordCreate, path_to_file: str):
 
 
 def _validate_wav(filename: str) -> bool:
-    if not filename.endswith('.wav'):
+    if not filename.endswith(".wav"):
         return False
     return True
 

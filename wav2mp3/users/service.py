@@ -1,7 +1,9 @@
-from wav2mp3.users.models import User, UserCreate
-from sqlalchemy.ext.asyncio import AsyncSession
 from uuid import uuid4
+
 from fastapi.exceptions import HTTPException
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from ..users.models import User, UserCreate
 
 
 async def validate_credentials(session: AsyncSession, user_id: str, token: str) -> None:
@@ -11,10 +13,6 @@ async def validate_credentials(session: AsyncSession, user_id: str, token: str) 
 
 
 async def create_user(session: AsyncSession, user_create: UserCreate) -> User:
-    user = User(id=str(uuid4()),
-                token=str(uuid4()), name=user_create.name)
+    user = User(id=str(uuid4()), token=str(uuid4()), name=user_create.name)
     session.add(user)
     return user
-
-
-

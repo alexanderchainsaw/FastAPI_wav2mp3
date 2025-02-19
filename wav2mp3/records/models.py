@@ -1,15 +1,19 @@
-from wav2mp3.database.core import Base
-from sqlalchemy.orm import Mapped, mapped_column
-from pydantic import BaseModel
-from uuid import UUID
-from fastapi import UploadFile, File
 from typing import Annotated
+from uuid import UUID
+
+from fastapi import File, UploadFile
+from pydantic import BaseModel
+from sqlalchemy.orm import Mapped, mapped_column
+
+from ..database.core import Base
 
 
 class RecordCreate(BaseModel):
     user_id: UUID
     token: UUID
-    wav_file: Annotated[UploadFile, File(description="A file read as UploadFile")] = File(...)
+    wav_file: Annotated[UploadFile, File(description="A file read as UploadFile")] = (
+        File(...)
+    )
 
 
 class RecordGet(BaseModel):
