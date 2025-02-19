@@ -1,7 +1,26 @@
-[project]
+[tool.poetry]
 name = "fastapi-wav2mp3"
 version = "0.1.0"
-description = "Add your description here"
+description = ""
+authors = ["alexanderchainsaw <alexanderkolesov.contact@gmail.com>"]
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = []
+package-mode = false
+
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["standard"], version = "^0.115.8"}
+pydub = "^0.25.1"
+asyncpg = "^0.30.0"
+sqlalchemy = "^2.0.38"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+pytest-asyncio = "^0.24.0"
+
+black = "^25.1.0"
+ruff = "^0.9.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
