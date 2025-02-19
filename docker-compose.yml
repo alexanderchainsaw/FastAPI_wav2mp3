@@ -11,8 +11,11 @@ services:
       - '5432:5432'
     volumes:
       - ./db_volume:/var/lib/postgresql/data
+    networks:
+      - custom
 
   app:
+    restart: on-failure
     ports:
       - "8000:8000"
     depends_on:
@@ -22,3 +25,7 @@ services:
       dockerfile: ./Dockerfile
     volumes:
       - ./media:/app/media
+    networks:
+      - custom
+networks:
+  custom:
