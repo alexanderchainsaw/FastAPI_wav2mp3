@@ -2,6 +2,7 @@ from uuid import uuid4
 
 from fastapi.concurrency import run_in_threadpool
 from fastapi.exceptions import HTTPException
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .models import Record, RecordCreate
@@ -19,7 +20,16 @@ async def create_record(session: AsyncSession, record_create: RecordCreate):
         user_id=str(record_create.user_id),
         path_to_mp3=f"{path_to_file}.mp3",
     )
+
+    if await session.scalar(
+        select(Record).where(Record.path_to_mp3 == record.path_to_mp3)
+    ):
+        raise HTTPException(
+            status_code=409, detail="Record with the same name already exists"
+        )
+
     session.add(record)
+
     return record
 
 
