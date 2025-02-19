@@ -18,7 +18,6 @@ def _wav_to_mp3(record_create: RecordCreate, path_to_file: str):
 
     with open(f"{path_to_file}.wav", "wb") as file:
         file.write(record_create.wav_file.file.read())
-    print(path_to_file)
     mp3_file = AudioSegment.from_wav(f"{path_to_file}.wav")
     mp3_file.export(f"{path_to_file}.mp3", format="mp3")
     os.remove(f"{path_to_file}.wav")
