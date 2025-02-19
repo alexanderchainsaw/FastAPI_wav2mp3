@@ -20,8 +20,8 @@
 
 1. Клонируйте репозиторий:
 ```bash
-git clone <ваш-репозиторий>
-cd <папка-проекта>
+git clone https://github.com/alexanderchainsaw/FastAPI_wav2mp3.git
+cd FastAPI_wav2mp3
 ```
 2. Запустите сервис через Makefile:
 ```bash
@@ -89,6 +89,8 @@ curl -X GET "http://localhost:8000/record?id=<record_id>&user=<user_id>"
     - Аудиофайлы сохраняются в папках по user_id (например, app/media/<user_id>/<record_id>.mp3).
 
     - При повторной загрузке файла с тем же именем возвращается ошибка 409 Conflict.
+  
+    - Создание пользователя с существующим именем разрешено, так как идентификация происходит по id и кофликтов не возникает
 
  
  - Volumes:
