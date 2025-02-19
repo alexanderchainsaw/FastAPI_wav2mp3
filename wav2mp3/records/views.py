@@ -33,10 +33,8 @@ async def create(
 
 
 @records_router.get("")
-async def get(
-    session: Annotated[AsyncSession, Depends(get_db)], record_id: str, user_id: str
-):
-    record = await get_record(session, record_id, user_id)
+async def get(session: Annotated[AsyncSession, Depends(get_db)], id: str, user_id: str):
+    record = await get_record(session, id, user_id)
     return FileResponse(
         path=record.path_to_mp3,
         media_type="audio/mpeg",

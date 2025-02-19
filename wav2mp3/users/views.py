@@ -16,6 +16,4 @@ async def create(
     session: Annotated[AsyncSession, Depends(get_db)], user_create: UserCreate
 ):
     user = await create_user(session, user_create)
-    return JSONResponse(
-        status_code=201, content={"user_id": user.id, "token": user.token}
-    )
+    return JSONResponse(status_code=201, content={"id": user.id, "token": user.token})

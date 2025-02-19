@@ -8,7 +8,7 @@ from .models import RecordCreate
 
 
 def construct_download_link(record_id: str, user_id: str) -> str:
-    return f"http://{config.APP_HOST}:{config.APP_PORT}/record?record_id={record_id}&user_id={user_id}"
+    return f"http://{config.APP_HOST}:{config.APP_PORT}/record?id={record_id}&user_id={user_id}"
 
 
 def _wav_to_mp3(record_create: RecordCreate, path_to_file: str):
