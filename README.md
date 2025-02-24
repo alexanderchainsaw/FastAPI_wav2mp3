@@ -82,7 +82,9 @@ curl -X 'POST' \
 Перейдите по ссылке из ответа метода конвертации:
 
 ```bash
-curl -X GET "http://localhost:8000/record?id=<record_id>&user=<user_id>"
+curl -X 'GET' \
+  'http://127.0.0.1:8000/record?id=<record_id>&user_id=<user_id>&token=<token>' \
+  -H 'accept: application/json'
 ```
 ### Особенности реализации
 
@@ -91,6 +93,7 @@ curl -X GET "http://localhost:8000/record?id=<record_id>&user=<user_id>"
  - При повторной загрузке файла с тем же именем возвращается ошибка 409 Conflict.
   
  - Создание пользователя с существующим именем разрешено, так как идентификация происходит по id и кофликтов не возникает
+ - Для создания и скачивания аудио пользователь должен предоставить свой token, который был выдан при регистрации
 
  
  - Volumes:
