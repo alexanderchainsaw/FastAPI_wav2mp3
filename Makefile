@@ -10,7 +10,7 @@ build:
 #	poetry run pytest
 lint:
 	poetry run black ${PROJECT_FOLDER}
-	poetry run ruff check ${PROJECT_FOLDER}
+	poetry run ruff check --fix ${PROJECT_FOLDER}
 	poetry run ruff format ${PROJECT_FOLDER}
 	poetry run isort ${PROJECT_FOLDER}
 run: down lint build up
