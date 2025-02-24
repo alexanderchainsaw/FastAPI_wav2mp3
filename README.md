@@ -86,7 +86,7 @@ curl -X GET "http://localhost:8000/record?id=<record_id>&user=<user_id>"
 ```
 ### Особенности реализации
 
-- Аудиофайлы сохраняются в папках по user_id (например, app/media/<user_id>/<record_id>.mp3).
+- Аудиофайлы сохраняются в папках по user_id (например, app/media/<user_id>/<название_файла>.mp3).
 
  - При повторной загрузке файла с тем же именем возвращается ошибка 409 Conflict.
   
