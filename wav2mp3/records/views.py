@@ -5,6 +5,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..database.core import get_db
+from ..users.models import User
 from ..users.service import validate_credentials
 from .models import RecordCreate
 from .service import create_record, get_record
@@ -17,11 +18,9 @@ records_router = APIRouter()
 async def create(
     session: Annotated[AsyncSession, Depends(get_db)],
     record_create: RecordCreate = Depends(RecordCreate),
+    user: User = Depends(validate_credentials),
 ):
-    await validate_credentials(
-        session, user_id=str(record_create.user_id), token=str(record_create.token)
-    )
-    created = await create_record(session, record_create)
+    created = await create_record(session, wav_file=record_create.wav_file, user=user)
     return JSONResponse(
         status_code=201,
         content={
@@ -33,8 +32,12 @@ async def create(
 
 
 @records_router.get("")
-async def get(session: Annotated[AsyncSession, Depends(get_db)], id: str, user_id: str):
-    record = await get_record(session, id, user_id)
+async def get(
+    session: Annotated[AsyncSession, Depends(get_db)],
+    id: str,
+    user: User = Depends(validate_credentials),
+):
+    record = await get_record(session, id, user.id)
     return FileResponse(
         path=record.path_to_mp3,
         media_type="audio/mpeg",

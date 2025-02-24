@@ -1,23 +1,25 @@
 from uuid import uuid4
 
+from fastapi import UploadFile
 from fastapi.concurrency import run_in_threadpool
 from fastapi.exceptions import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .models import Record, RecordCreate
+from ..users.models import User
+from .models import Record
 from .utils import process_audio
 
 
-async def create_record(session: AsyncSession, record_create: RecordCreate):
-    filename_without_ext = "".join(record_create.wav_file.filename.rsplit(".", 1)[:-1])
-    path_to_file = f"media/{record_create.user_id}/{filename_without_ext}"
+async def create_record(session: AsyncSession, wav_file: UploadFile, user: User):
+    filename_without_ext = "".join(wav_file.filename.rsplit(".", 1)[:-1])
+    path_to_file = f"media/{user.id}/{filename_without_ext}"
     await run_in_threadpool(  # внутри блокирующий I/O, поэтому в тредпуле
-        process_audio, record_create, path_to_file
+        process_audio, wav_file, user, path_to_file
     )
     record = Record(
         id=str(uuid4()),
-        user_id=str(record_create.user_id),
+        user_id=str(user.id),
         path_to_mp3=f"{path_to_file}.mp3",
     )
 
