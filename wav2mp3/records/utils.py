@@ -1,4 +1,7 @@
 import os
+import shutil
+from tempfile import NamedTemporaryFile
+from typing import IO
 
 from fastapi import UploadFile
 from fastapi.exceptions import HTTPException
@@ -6,6 +9,7 @@ from pydub import AudioSegment
 
 from .. import config
 from ..users.models import User
+from .models import MAX_WAV_SIZE, MAX_WAV_SIZE_MB
 
 
 def construct_download_link(record_id: str, user_id: str) -> str:
@@ -17,8 +21,20 @@ def _wav_to_mp3(wav_file, user, path_to_file: str):
     if not os.path.exists(f"media/{user.id}"):
         os.makedirs(f"media/{user.id}")
 
-    with open(f"{path_to_file}.wav", "wb") as file:
-        file.write(wav_file.file.read())
+    # Читаем файл кусками, если превышает лимит то выбрасываем 413, если ок - сохраняем
+    current_file_size = 0
+    temp: IO = NamedTemporaryFile(delete=False)
+    for chunk in wav_file.file:
+        current_file_size += len(chunk)
+        if current_file_size > MAX_WAV_SIZE:
+            raise HTTPException(
+                status_code=413,
+                detail=f"File too large, must be below {MAX_WAV_SIZE_MB} MB",
+            )
+        temp.write(chunk)
+    temp.close()
+    shutil.move(temp.name, f"{path_to_file}.wav")
+
     mp3_file = AudioSegment.from_wav(f"{path_to_file}.wav")
     mp3_file.export(f"{path_to_file}.mp3", format="mp3")
     os.remove(f"{path_to_file}.wav")

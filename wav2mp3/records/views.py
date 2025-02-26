@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import FileResponse, JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -16,10 +16,13 @@ records_router = APIRouter()
 
 @records_router.post("")
 async def create(
+    request: Request,
     session: Annotated[AsyncSession, Depends(get_db)],
     record_create: RecordCreate = Depends(RecordCreate),
     user: User = Depends(validate_credentials),
 ):
+    print(request.headers)
+    print(f"FILE SIZE: \n{record_create.wav_file.size}")
     created = await create_record(session, wav_file=record_create.wav_file, user=user)
     return JSONResponse(
         status_code=201,

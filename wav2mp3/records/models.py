@@ -6,6 +6,10 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from ..database.core import Base
 
+BYTE = 1048576
+MAX_WAV_SIZE_MB = 50
+MAX_WAV_SIZE = MAX_WAV_SIZE_MB * BYTE
+
 
 class RecordCreate(BaseModel):
     wav_file: Annotated[UploadFile, File(description="A file read as UploadFile")] = (
