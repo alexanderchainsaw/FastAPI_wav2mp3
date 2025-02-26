@@ -65,8 +65,9 @@ curl -X 'POST' \
 
 ```bash
 curl -X 'POST' \
-  'http://127.0.0.1:8000/record?user_id=c94df9e1-8c15-482c-bcac-322db78cf6b8&token=e97b3f47-2eee-40c0-bcea-4c9b1da5b2ea' \
+  'http://localhost:8000/record?user_id=c5975e47-fac0-4b61-876d-20d5e1c4cb3a' \
   -H 'accept: application/json' \
+  -H 'token: e97b3f47-2eee-40c0-bcea-4c9b1da5b2ea' \
   -H 'Content-Type: multipart/form-data' \
   -F 'wav_file=@some_audio.wav;type=audio/wav'
   ```
@@ -74,17 +75,18 @@ curl -X 'POST' \
 
 ```json
 {
-  "download_link": "http://localhost:8000/record?id=ab5e879a-1dda-4296-91a5-4f889f4f8e02&user_id=c94df9e1-8c15-482c-bcac-322db78cf6b8"
+  "download_link": "http://localhost:8000/record?id=4b4afdbb-4807-42c4-ab97-3f192597e196&user_id=c5975e47-fac0-4b61-876d-20d5e1c4cb3a"
 }
 ```
 #### 3. Скачивание аудиозаписи
 
-Перейдите по ссылке из ответа метода конвертации:
+Отправить GET запрос по ссылке (в заголовке нужно указать токен):
 
 ```bash
 curl -X 'GET' \
-  'http://127.0.0.1:8000/record?id=<record_id>&user_id=<user_id>&token=<token>' \
-  -H 'accept: application/json'
+  'http://localhost:8000/record?id=4b4afdbb-4807-42c4-ab97-3f192597e196&user_id=c5975e47-fac0-4b61-876d-20d5e1c4cb3a' \
+  -H 'accept: application/json' \
+  -H 'token: e97b3f47-2eee-40c0-bcea-4c9b1da5b2ea'
 ```
 ### Особенности реализации
 

@@ -1,12 +1,12 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends
 from fastapi.responses import FileResponse, JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from ..auth import validate_credentials
 from ..database.core import get_db
 from ..users.models import User
-from ..users.service import validate_credentials
 from .models import RecordCreate
 from .service import create_record, get_record
 from .utils import construct_download_link
