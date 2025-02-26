@@ -16,6 +16,3 @@ async def validate_credentials(
     if not user or user.token != token:
         raise HTTPException(status_code=401, detail="Invalid credentials")
     return user
-
-
-security = HTTPBearer()
