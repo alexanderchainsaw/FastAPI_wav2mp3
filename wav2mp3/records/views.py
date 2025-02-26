@@ -16,7 +16,6 @@ records_router = APIRouter()
 
 @records_router.post("")
 async def create(
-    request: Request,
     session: Annotated[AsyncSession, Depends(get_db)],
     record_create: RecordCreate = Depends(RecordCreate),
     user: User = Depends(validate_credentials),
